@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookstore-api
+  namespace: sit
+  labels:
+    app: bookstore-api
+spec:
+  ports:
+    - port: 8080
+      name: bookstore-api-port
+  selector:
+    app: bookstore-api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookstore-api
+  namespace: sit
+  labels:
+    app: bookstore-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookstore-api
+  template:
+    metadata:
+      labels:
+        app: bookstore-api
+    spec:
+      containers:
+      - name: bookstore-api-app
+        image: bookstore-api
+        ports:
+        - containerPort: 8080
